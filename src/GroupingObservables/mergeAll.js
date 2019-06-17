@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var source1$ = rxjs_1.timer(0, 1).pipe(operators_1.take(10));
+var workingDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+var source2$ = rxjs_1.of.apply(void 0, workingDays).pipe(operators_1.delay(15));
+var weekends = ["Saturday", "Sunday"];
+var source3$ = rxjs_1.of.apply(void 0, weekends).pipe(operators_1.delay(5));
+console.log("# merge working days and weekends");
+rxjs_1.of(source1$, source2$, source3$).pipe(operators_1.mergeAll(3)).subscribe(console.log);
