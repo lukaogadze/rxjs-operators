@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var origin$ = new rxjs_1.Subject();
+var sourceA$ = rxjs_1.of("A1", "A2", "A3", "A4").pipe(operators_1.tap(function (x) { return (x.indexOf("1") > -1 ? console.log("begin A") : ""); }), operators_1.endWith("end of A"));
+var sourceB$ = rxjs_1.of("B1", "B2").pipe(operators_1.tap(function (x) { return (x.indexOf("1") > -1 ? console.log("begin B") : ""); }), operators_1.delay(100), operators_1.endWith("end of B"));
+var sourceC$ = rxjs_1.of("C1", "C2", "C3").pipe(operators_1.tap(function (x) { return (x.indexOf("1") > -1 ? console.log("begin B") : ""); }), operators_1.delay(100), operators_1.endWith("end of C"));
+console.log("# source A completes before source B comes");
+console.log("# source B does not complete before source C comes");
+console.log("# hence, all values from source B are ignored");
+origin$.pipe(operators_1.switchAll()).subscribe(console.log);
+origin$.next(sourceA$);
+setTimeout(function () { return origin$.next(sourceB$); }, 1000);
+setTimeout(function () { return origin$.next(sourceC$); }, 1000);

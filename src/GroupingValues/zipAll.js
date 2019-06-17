@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+console.log("# collect pairs");
+var source1$ = rxjs_1.of("A", "1", "a");
+var source2$ = rxjs_1.of("B", "2", "b");
+rxjs_1.of(source1$, source2$).pipe(operators_1.zipAll()).subscribe(console.log);
+console.log("\r\n_________________________\r\n");
+var source$ = rxjs_1.of(rxjs_1.timer(0, 100).pipe(operators_1.take(3), operators_1.map(function (x) { return 'a' + x; })), rxjs_1.timer(0, 300).pipe(operators_1.take(3), operators_1.map(function (x) { return "b" + x; })), rxjs_1.timer(0, 500).pipe(operators_1.take(3), operators_1.map(function (x) { return "c" + x; })));
+console.log("# values from different sources emit at different times");
+source$.pipe(operators_1.zipAll()).subscribe(function (x) { return console.log(x); });
