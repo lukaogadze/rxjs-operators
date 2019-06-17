@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+console.log("# the one match");
+rxjs_1.of(1, 2, 3).pipe(operators_1.single(function (x) { return x % 2 === 0; })).subscribe(console.log, console.log, function () { return console.log("complete"); });
+console.log("\r\n______________________\r\n");
+console.log("# no value matches");
+rxjs_1.of(1, 2, 3).pipe(operators_1.single(function (x) { return x < 0; })).subscribe(console.log, console.log, function () { return console.log("complete"); });
+console.log("\r\n______________________\r\n");
+console.log("# throw error if more than one value matches");
+rxjs_1.of(1, 2, 3, 4).pipe(operators_1.single(function (x) { return x % 2 === 0; })).subscribe(console.log, console.log, function () { return console.log("complete"); });

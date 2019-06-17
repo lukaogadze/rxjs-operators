@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var rxjs_1 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+rxjs_1.of(1, 2, 3).pipe(operators_1.last()).subscribe(console.log);
+console.log("\r\n_________________________\r\n");
+rxjs_1.of(1, 2, 3).pipe(operators_1.last(function (x) { return x % 2 === 0; })).subscribe(console.log);
+console.log("\r\n_________________________\r\n");
+console.log("# call last on empty sequence causes error");
+rxjs_1.of().pipe(operators_1.last()).subscribe(function (x) { return console.log("last: " + x); }, function (error) { return console.log("error: " + error.message); });
+console.log("\r\n_________________________\r\n");
+rxjs_1.interval().pipe(operators_1.last()).subscribe(function (x) { return console.log("last: " + x); }, function (error) { return console.log("error: " + error.message); });
